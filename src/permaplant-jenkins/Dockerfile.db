@@ -1,4 +1,4 @@
-FROM postgres:14.1
+FROM postgis/postgis:13-3.1
 RUN apt-get update \
     && apt-get -y install wget curl gnupg2 software-properties-common apt-transport-httpsclang lld libpq-dev libssl-dev pkg-config \
     && apt-get autoremove -y && apt-get clean -y

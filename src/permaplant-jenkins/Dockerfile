@@ -6,3 +6,10 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install clang lld libpq-dev libssl-dev pkg-config \
     && apt-get autoremove -y && apt-get clean -y
 
+USER vscode
+
+RUN rustup component add clippy rustfmt
+RUN cargo install diesel_cli@2.0.1 --no-default-features --features postgres
+RUN cargo install typeshare-cli
+RUN cargo install mdbook mdbook-mermaid
+RUN cargo install --git https://github.com/ElektraInitiative/mdbook-generate-summary mdbook-generate-summary
