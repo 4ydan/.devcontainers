@@ -11,19 +11,19 @@ services:
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
     networks:
-      - permaplant-net
+      - jenkins-opilot
 
   docker:
     image: docker:dind
     container_name: docker
     privileged: true
     networks:
-      - permaplant-net
+      - jenkins-opilot
     environment:
       - DOCKER_TLS_CERTDIR=/certs
     volumes:
-      - jenkins-docker-certs:/certs/client
-      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs-opilot:/certs/client
+      - jenkins-data-opilot:/var/jenkins_home
     ports:
       - '2376:2376'
 
@@ -32,17 +32,17 @@ services:
     container_name: jenkins-blueocean
     restart: on-failure
     networks:
-      - permaplant-net
+      - jenkins-opilot
     environment:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1
     volumes:
-      - jenkins-data:/var/jenkins_home
-      - jenkins-docker-certs:/certs/client:ro
+      - jenkins-data-opilot:/var/jenkins_home
+      - jenkins-docker-certs-opilot:/certs/client:ro
     ports:
-      - '8083:8080'
-      - '50003:50000'
+      - '8080:8080'
+      - '50000:50000'
 
   agent1:
     build:
@@ -50,28 +50,25 @@ services:
     container_name: agent1
     restart: on-failure
     networks:
-      - permaplant-net
+      - jenkins-opilot
     environment:
       - JENKINS_AGENT_SSH_PUBKEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOrjQ2/1E/Sk3IEisMAiD/8Gl1c4jScWY+bqC9MJcL6j adi\adi@Adi
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1
     volumes:
-      - jenkins-data:/var/jenkins_home
-      - jenkins-docker-certs:/certs/client:ro
+      - jenkins-data-opilot:/var/jenkins_home
+      - jenkins-docker-certs-opilot:/certs/client:ro
     ports:
       - '22:22'
 
 volumes:
-  jenkins-docker-certs:
-    external: true
-  jenkins-data:
-    external: true
-  postgres-data-permaplant:
-    external: false
-  postgis-data-permaplant:
-    external: false
+  jenkins-docker-certs-opilot:
+  jenkins-data-opilot:
+  postgres-data-opilot:
+  postgis-data-opilot:
+
 
 networks:
-  permaplant-net:
-    external: false
+  jenkins-opilot:
+    external: true

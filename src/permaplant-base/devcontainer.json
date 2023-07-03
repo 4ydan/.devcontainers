@@ -1,0 +1,18 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/rust
+{
+	"name": "PermplanT-base-dev",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"features": {
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "19.4"
+		},
+		"ghcr.io/devcontainers-contrib/features/npm-package:1": {
+			"version": "9.7.2"
+		},
+		"ghcr.io/devcontainers-contrib/features/typescript:2": {},
+		"ghcr.io/devcontainers-contrib/features/pre-commit:2": {}
+	}
+}
